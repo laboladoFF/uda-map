@@ -14,3 +14,78 @@
   float: right;
   width: 80%;
 }
+
+/***********   map  ************/
+.mapContainer{
+  width: 100%;
+  height: 600px;
+}
+
+
+/***********   left  ************/
+.mapSearch{
+  margin: 0 auto;
+}
+
+
+.btnSearch{
+  height: 36px;
+}
+
+/***********   option  ************/
+.filter-locations{
+  position: relative;
+  margin: 0 auto;
+}
+
+h2{
+  text-align: center;
+}
+
+.map-option{
+  margin: 20px 0;
+  margin: 0 atuo;
+  text-align: center;
+}
+
+select{
+  padding: 0 5px;
+  position: relative;
+  height: 30px;
+  width: 180px;
+  margin: 0 auto;
+}
+
+option{
+  padding: 5px;
+}
+
+.filter-locations-results{
+  margin: 20px 0;
+}
+
+.locations{
+  list-style: none;
+  margin: 0 auto;
+  line-height: 30px;
+  font-size: 14px;
+}
+
+@media all and (max-width: 768px){
+  .left-map{
+    width: 50%;
+  }
+  
+  .right-map{
+    float: right;
+    width: 50%;
+  }
+
+  select{
+    width: 100px;
+  }
+
+  option{
+    padding: 3px;
+  }
+}

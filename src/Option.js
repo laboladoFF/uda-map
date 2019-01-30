@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './search.css'
+import './App.css'
 
 function Option (props){
     return(

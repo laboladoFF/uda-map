@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './map.css'
+import './App.css'
 
 class BaiduMap extends Component {
 
@@ -58,7 +58,7 @@ class BaiduMap extends Component {
       var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
       var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
       map.openInfoWindow(infoWindow,point); //开启信息窗口
-      console.log(infoWindow)
+      console.log(map.openInfoWindow(infoWindow,point))
     });
 	}
 

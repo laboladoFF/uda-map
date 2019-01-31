@@ -20,6 +20,9 @@ class BaiduMap extends Component {
     map.enableScrollWheelZoom();
     
     //console.log(locations)
+    window.map.onerror = function() {
+      window.map.innerHTML = "无法加载图片。";
+    };
   }
 
   componentDidUpdate(prevProps) {
@@ -56,18 +59,39 @@ class BaiduMap extends Component {
       const BMap = window.BMap;
       const map = window.map;
       var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
-      var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
-      map.openInfoWindow(infoWindow,point); //开启信息窗口
-      console.log(map.openInfoWindow(infoWindow,point))
+      // var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
+      // map.openInfoWindow(infoWindow,point); //开启信息窗口
+      this.InfoWindow(point)
+      console.log(point)
     });
 	}
 
+  InfoWindow(point){
+    // var content =
+    //   "<div id='loc-name'><strong>名称: </strong>" + place.name + "</div>";
+    // var errorMsg = "<div id='foursquare-error'>加载数据失败...</div>";
+
+    // //从 Foursquare 获取信息
+    // var self = this;
+    // var clientId = "R1SPUZGHU3CWL5R1QODPGCOAFAYKVZGRW3GO1XMOCPVHLHQV";
+    // var clientSecret = "WWQZSXWPUYAR1CDTHUSHM4LNVE4QUHXWWO2JUQQAZ0YGAWSM";
+    // var url =
+    //   "https://api.foursquare.com/v2/venues/search?client_id=" +
+    //   clientId +
+    //   "&client_secret=" +
+    //   clientSecret +
+    //   "&v=20180323&limit=1&ll=" +
+    //   place.lat() +
+    //   "," +
+    //   place.lng() +
+    //   "&limit=1";
+
+    console.log(point)
+  }
 
   render() {
     return (
-      <div>
         <div className="mapContainer" id="mapContainer"></div>
-      </div> 
     );
   }
 }

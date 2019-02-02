@@ -127,7 +127,7 @@ class BaiduMap extends Component {
 
   render() {
     return (
-        <div className="mapContainer" id="mapContainer"></div>
+        <div className="mapContainer" id="mapContainer" aria-label="地图"></div>
     );
   }
 }

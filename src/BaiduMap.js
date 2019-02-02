@@ -9,6 +9,7 @@ class BaiduMap extends Component {
     script.src = "http://api.map.baidu.com/api?v=3.0&ak=Z3MSOFwaG7lGWnkhhgIRC3LOo3akMAxg&callback=initMap";
     script.async = true;
     document.head.appendChild(script);
+    console.log(this)
   }
 
   initMap(){
@@ -18,10 +19,10 @@ class BaiduMap extends Component {
     const map = window.map;
     map.centerAndZoom('北京', 15); 
     map.enableScrollWheelZoom();
-    
+    this.getMarker(BMap,locations, map)
     //console.log(locations)
     window.map.onerror = function() {
-      window.map.innerHTML = "无法加载图片。";
+      window.map.innerHTML = "无法加载。";
     };
   }
 
@@ -42,8 +43,8 @@ class BaiduMap extends Component {
       var content = locations[i].title;
       var marker = new BMap.Marker(point); 
       map.addOverlay(marker);//清除之前的Marker
-      console.log(marker);
       this.addClickHandler(content,marker);
+      console.log(this)
     }
   }
 
@@ -61,8 +62,10 @@ class BaiduMap extends Component {
       var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
       // var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
       // map.openInfoWindow(infoWindow,point); //开启信息窗口
-      this.InfoWindow(point)
-      console.log(point)
+      this.InfoWindow = this.InfoWindow.bind(this);
+      //this.InfoWindow(point)
+      console.log(this)
+      
     });
 	}
 
@@ -86,7 +89,7 @@ class BaiduMap extends Component {
     //   place.lng() +
     //   "&limit=1";
 
-    console.log(point)
+    console.log(this)
   }
 
   render() {

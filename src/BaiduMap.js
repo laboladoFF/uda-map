@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import './App.css'
 
 class BaiduMap extends Component {
+  state = {
+    mapStatus: null
+  }
 
   componentDidMount () {
     const script = document.createElement("script");
@@ -9,6 +12,9 @@ class BaiduMap extends Component {
     script.src = "http://api.map.baidu.com/api?v=3.0&ak=Z3MSOFwaG7lGWnkhhgIRC3LOo3akMAxg&callback=initMap";
     script.async = true;
     document.head.appendChild(script);
+    script.onerror = () => {
+      alert('无法加载图片。');
+    }
     console.log(this)
   }
 
@@ -21,9 +27,6 @@ class BaiduMap extends Component {
     map.enableScrollWheelZoom();
     this.getMarker(BMap,locations, map)
     //console.log(locations)
-    window.map.onerror = function() {
-      window.map.innerHTML = "无法加载。";
-    };
   }
 
   componentDidUpdate(prevProps) {
@@ -39,7 +42,6 @@ class BaiduMap extends Component {
     for (let i = 0; i < locations.length; i++) {
       var position = locations[i].location;
       var point = new BMap.Point(position.lat,position.lng)   
-      //var content = locations[i].title;
       var content = this.populateInfoWindow(point);
       console.log(this.populateInfoWindow(point))
       var marker = new BMap.Marker(point); 
@@ -103,7 +105,7 @@ class BaiduMap extends Component {
         response.json().then(function(data) {
           var placeData = data.response.venues[0];
           var placeAddress =
-            ">地址:" +
+            "地址:" +
             (placeData.location.address == undefined
               ? "从 foursquare 获取地址失败"
               : placeData.location.address);
@@ -120,12 +122,17 @@ class BaiduMap extends Component {
         console.log(err);
         content += errorMsg;
       });
-      map.openInfoWindow(content); //开启信息窗口
   }
 
   render() {
     return (
-        <div className="mapContainer" id="mapContainer" aria-label="地图"></div>
+        <div 
+          className="mapContainer" 
+          id="mapContainer" 
+          role="application"
+          aria-label="地图"
+          tabIndex="-1"
+        ></div>
     );
   }
 }

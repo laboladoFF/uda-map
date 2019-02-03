@@ -36,26 +36,27 @@ class BaiduMap extends Component {
   }
 
   getMarker(BMap, locations, map){
-    
     for (let i = 0; i < locations.length; i++) {
       var position = locations[i].location;
       var point = new BMap.Point(position.lat,position.lng)   
       //var content = locations[i].title;
+      var content = this.populateInfoWindow(point);
+      console.log(this.populateInfoWindow(point))
       var marker = new BMap.Marker(point); 
       map.addOverlay(marker);//清除之前的Marker
-      this.addClickHandler(marker);
+      this.addClickHandler(content,marker);
       console.log(this)
     }
   }
 
-  addClickHandler(marker){
+  addClickHandler(content,marker){
 		marker.addEventListener("click",function(e){
-      this.openInfo(e) 
+      this.openInfo(content,e) 
       //console.log(this)
     }.bind(this));
 	}
 
-  openInfo(e){
+  openInfo(content,e){
     var opts = {
       width : 200,     // 信息窗口宽度
       height: 100,     // 信息窗口高度
@@ -66,17 +67,15 @@ class BaiduMap extends Component {
     const BMap = window.BMap;
     const map = window.map;
     var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
-    var infoWindow = new BMap.InfoWindow(opts);  // 创建信息窗口对象 
-    this.populateInfoWindow(point)
+    var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
     map.openInfoWindow(infoWindow,point); //开启信息窗口
-   // console.log(point)
   }
 
   populateInfoWindow(place) {
     const map = window.map;
     var content =
-      "<div id='loc-name'><strong>名称: </strong>" + place.name + "</div>";
-    var errorMsg = "<div id='foursquare-error'>加载数据失败...</div>";
+      "名称:" + place.name;
+    var errorMsg = "加载数据失败...";
 
     //从 Foursquare 获取信息
     var clientId = "R1SPUZGHU3CWL5R1QODPGCOAFAYKVZGRW3GO1XMOCPVHLHQV";
@@ -104,11 +103,10 @@ class BaiduMap extends Component {
         response.json().then(function(data) {
           var placeData = data.response.venues[0];
           var placeAddress =
-            "<div><strong>地址: </strong>" +
+            ">地址:" +
             (placeData.location.address == undefined
               ? "从 foursquare 获取地址失败"
-              : placeData.location.address) +
-            "</div>";
+              : placeData.location.address);
           content += placeAddress;
           var fourSquareLink =
             '<a href="https://foursquare.com/v/' +

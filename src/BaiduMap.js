@@ -3,7 +3,7 @@ import './App.css'
 
 class BaiduMap extends Component {
   state = {
-    mapStatus: null
+    chosenMarker: null //标志和打开的信息
   }
 
   componentDidMount () {
@@ -15,7 +15,7 @@ class BaiduMap extends Component {
     script.onerror = () => {
       alert('无法加载图片。');
     }
-    console.log(this)
+    //console.log(this)
   }
 
   initMap(){
@@ -30,7 +30,7 @@ class BaiduMap extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(this.props);
+    //console.log(this.props);
     const { locations } = this.props;
     var BMap = window.BMap;
     var map = window.map;
@@ -43,18 +43,18 @@ class BaiduMap extends Component {
       var position = locations[i].location;
       var point = new BMap.Point(position.lat,position.lng)   
       var content = this.populateInfoWindow(point);
-      console.log(this.populateInfoWindow(point))
+      console.log(content)
       var marker = new BMap.Marker(point); 
       map.addOverlay(marker);//清除之前的Marker
       this.addClickHandler(content,marker);
-      console.log(this)
+      //console.log(this)
     }
   }
+
 
   addClickHandler(content,marker){
 		marker.addEventListener("click",function(e){
       this.openInfo(content,e) 
-      //console.log(this)
     }.bind(this));
 	}
 
@@ -92,7 +92,7 @@ class BaiduMap extends Component {
       "," +
       place.lng +
       "&limit=1";
-      console.log(this)
+      //console.log(this)
     
       fetch(url)
       .then(function(response) {
@@ -116,11 +116,13 @@ class BaiduMap extends Component {
             '" target="_blank" style="color:red;">点击打开 Foursquare 获取更多信息</a>';
           content += fourSquareLink;
           console.log(content)
+          return content;
         });
       })
       .catch(function(err) {
         console.log(err);
         content += errorMsg;
+        return content;
       });
   }
 

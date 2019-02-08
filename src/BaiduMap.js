@@ -3,7 +3,7 @@ import './App.css'
 
 class BaiduMap extends Component {
   state = {
-    chosenMarker: null //标志和打开的信息
+    content: null //标志和打开的信息
   }
 
   componentDidMount () {
@@ -15,7 +15,14 @@ class BaiduMap extends Component {
     script.onerror = () => {
       alert('无法加载图片。');
     }
-    //console.log(this)
+  }
+
+  componentDidUpdate(prevProps) {
+    const { locations } = this.props;
+    var BMap = window.BMap;
+    var map = window.map;
+    map.clearOverlays();
+    this.getMarker(BMap,locations, map)
   }
 
   initMap(){
@@ -25,17 +32,12 @@ class BaiduMap extends Component {
     const map = window.map;
     map.centerAndZoom('北京', 15); 
     map.enableScrollWheelZoom();
-    this.getMarker(BMap,locations, map)
-    //console.log(locations)
+    this.getMarker(BMap,locations, map);
   }
 
-  componentDidUpdate(prevProps) {
-    //console.log(this.props);
-    const { locations } = this.props;
-    var BMap = window.BMap;
-    var map = window.map;
-    map.clearOverlays();
-    this.getMarker(BMap,locations, map)
+  getcontent(content){
+    console.log(content)
+    //this.setState({content: content})浏览器崩了
   }
 
   getMarker(BMap, locations, map){
@@ -43,11 +45,9 @@ class BaiduMap extends Component {
       var position = locations[i].location;
       var point = new BMap.Point(position.lat,position.lng)   
       var content = this.populateInfoWindow(point);
-      console.log(content)
       var marker = new BMap.Marker(point); 
       map.addOverlay(marker);//清除之前的Marker
       this.addClickHandler(content,marker);
-      //console.log(this)
     }
   }
 
@@ -78,6 +78,7 @@ class BaiduMap extends Component {
     var content =
       "名称:" + place.name;
     var errorMsg = "加载数据失败...";
+    var self = this;
 
     //从 Foursquare 获取信息
     var clientId = "R1SPUZGHU3CWL5R1QODPGCOAFAYKVZGRW3GO1XMOCPVHLHQV";
@@ -115,12 +116,11 @@ class BaiduMap extends Component {
             placeData.id +
             '" target="_blank" style="color:red;">点击打开 Foursquare 获取更多信息</a>';
           content += fourSquareLink;
-          console.log(content)
-          return content;
+          self.getcontent(content)  
         });
       })
       .catch(function(err) {
-        console.log(err);
+        //console.log(err);
         content += errorMsg;
         return content;
       });

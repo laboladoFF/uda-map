@@ -23,20 +23,6 @@ class App extends Component {
     }
   }
 
-  //老师，这个为什么报错
-  //TypeError: Cannot read property 'locations' of undefined
-  // filterLocation(type){
-  //   if(type !== '全部'){
-  //     this.setState({
-  //       locationsNow: this.state.locations.filter((result)=>(result.type === type))
-  //     })
-  //   }else{
-  //     this.setState({
-  //       locationsNow: this.state.locations
-  //     })
-  //   }
-  // }
-
 
   render() {
     let { locations, locationsNow } = this.state
